@@ -33,8 +33,6 @@ public class UsuarioController extends HttpServlet{
 		//inserir na lista
 		lista.add(usu);
 		
-		
-		
 		resp.getWriter().print("\n{nome:"+usu.getNome()+" ,email: "+usu.getEmail()+" }");
 		
 	}
@@ -43,7 +41,7 @@ public class UsuarioController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		
 		String json="[";
-		for(int i=0;i<lista.size();i++){
+		for(int i=0;i<lista.size()-1;i++){
 			
 			json += "\n{nome:"+ lista.get(i).getNome()+", email: "+lista.get(i).getEmail()+" }";
 			if(i<lista.size())
@@ -55,4 +53,43 @@ public class UsuarioController extends HttpServlet{
 		
 	}
 	
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		/* deletando por indice
+		String nome = req.getParameter("nome");
+		
+		for(int i=0;i<lista.size();i++){
+			if(lista.get(i).getNome().equals(nome)){
+				lista.remove(i);
+				i=-1;
+				resp.getWriter().print("\nusuario removido");
+			}
+		}*/
+		
+		//deletando por indice 
+		int ind = Integer.parseInt("ind");
+		for(int i=0;i<lista.size();i++){
+			if(i == ind){
+				lista.remove(i);
+				resp.getWriter().print("\nusuario removido");
+			}
+		}
+		
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		int ind = Integer.parseInt("ind");
+		String nome = req.getParameter("nome");
+		String email = req.getParameter("email");
+		
+		if(nome == null){
+			lista.get(ind).setNome(nome);
+		}
+		if(email == null){
+			lista.get(ind).setEmail(email);
+		}
+	}
 }
